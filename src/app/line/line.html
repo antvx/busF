@@ -1,0 +1,48 @@
+<div class="gestionale-container">
+  <button routerLink="/" class="btn-back">⬅ Torna alla Homepage</button>
+
+  <h1>Gestione Linea: {{ lineData.line }}</h1>
+
+  <table class="stops-table">
+    <thead>
+      <tr>
+        <th>Ordine</th>
+        <th>Città</th>
+        <th>Indirizzo</th>
+        <th>Tempo (min)</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (stop of lineData.stops; track stop.order; let i = $index) {
+        <tr>
+          <td><strong>{{ stop.order }}</strong></td>
+          <td>{{ stop.city }}</td>
+          <td>{{ stop.address }}</td>
+          <td>
+            @if (stop.time !== null) {
+              + {{ stop.time }} min
+            } @else {
+              <span class="start-label">Partenza</span>
+            }
+          </td>
+          <td>
+            <button class="btn-delete" (click)="removeStop(i)">Elimina</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="add-stop-panel">
+    <h3>Aggiungi Fermata</h3>
+    <form [formGroup]="stopForm" (ngSubmit)="addStop()">
+      <div class="form-row">
+        <input type="text" formControlName="city" placeholder="Città">
+        <input type="text" formControlName="address" placeholder="Indirizzo">
+        <input type="number" formControlName="time" placeholder="Minuti">
+        <button type="submit" [disabled]="stopForm.invalid" class="btn-add">Aggiungi</button>
+      </div>
+    </form>
+  </div>
+</div>

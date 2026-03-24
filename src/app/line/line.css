@@ -1,0 +1,136 @@
+/* Contenitore principale */
+.gestionale-container {
+  background-color: #fcfcfc;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 950px;
+  margin: 20px auto;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+}
+
+/* Tabella Fermate */
+.stops-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.stops-table th {
+  background-color: #f8f9fa;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  padding: 15px;
+  border-bottom: 2px solid #eee;
+  text-align: left;
+}
+
+.stops-table td {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #444;
+}
+
+.stops-table tr:hover {
+  background-color: #fdfdfd;
+}
+
+/* Etichette e bottoni */
+.start-label {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.btn-delete {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.btn-delete:hover {
+  background: #cc0000;
+}
+
+/* Pannello Aggiungi Fermata */
+.add-stop-panel {
+  background: #f1f3f5;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.add-stop-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #495057;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.btn-add {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-add:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-add:disabled {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.btn-back {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  color: #666;
+}
+.btn-back:hover {
+  background: #eee;
+}
