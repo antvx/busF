@@ -1,7 +1,12 @@
 <div class="gestionale-container">
   <button routerLink="/" class="btn-back">⬅ Torna alla Homepage</button>
 
-  <h1>Gestione Linea: {{ lineData.line }}</h1>
+  <div class="header-actions">
+    <h1>Gestione Linea: {{ lineData.line }}</h1>
+    <button class="btn-reverse" (click)='generateReturnLine()'>
+      🔄 Genera Percorso Ritorno
+    </button>
+  </div>
 
   <table class="stops-table">
     <thead>

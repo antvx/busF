@@ -134,3 +134,30 @@ h1 {
 .btn-back:hover {
   background: #eee;
 }
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-reverse {
+  background-color: #6c5ce7; /* Un bel viola/indaco */
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-reverse:hover {
+  background-color: #a29bfe;
+  transform: scale(1.05);
+}
+
+.btn-reverse:active {
+  transform: scale(0.95);
+}

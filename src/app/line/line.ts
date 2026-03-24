@@ -49,5 +49,29 @@ export class Line
     // Ricalcola gli ordini dopo l'eliminazione
     this.lineData.stops.forEach((s, i) => s.order = i + 1);
   }
+
+  generateReturnLine() {
+    // 1. Invertiamo l'array delle fermate (creandone una copia per non rovinare l'andata)
+    const forwardStops = [...this.lineData.stops];
+    const returnStops = forwardStops.reverse();
+
+    // 2. Mappiamo le fermate invertite per correggere 'order' e 'time'
+    const updatedReturnStops = returnStops.map((stop, index) => {
+      return {
+        ...stop,
+        order: index + 1, // Nuovo ordine: 1, 2, 3...
+        // La nuova prima fermata (ex ultima) deve avere tempo null
+        time: index === 0 ? null : stop.time
+      };
+    });
+
+    // 3. Aggiorniamo i dati della linea
+    this.lineData = {
+      line: this.lineData.line.includes('-R')
+            ? this.lineData.line.replace('-R', '') // Se era già ritorno, torna andata
+            : this.lineData.line + "-R",           // Altrimenti aggiungi -R
+      stops: updatedReturnStops
+    };
+  }
 }
 
