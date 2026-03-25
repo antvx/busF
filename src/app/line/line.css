@@ -214,3 +214,31 @@ h1 {
 .btn-delete {
   margin-left: 5px;
 }
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-group label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #666;
+  text-transform: uppercase;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background: white;
+  min-width: 80px;
+}
+
+.form-row {
+  display: flex;
+  align-items: flex-end; /* Allinea il tasto e gli input sulla linea di base */
+  gap: 15px;             /* Spazio tra un campo e l'altro */
+  flex-wrap: wrap;       /* Se lo schermo è piccolo, i campi vanno a capo ordinatamente */
+}

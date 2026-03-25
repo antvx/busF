@@ -71,6 +71,15 @@
     <h3>Aggiungi Fermata</h3>
     <form [formGroup]="stopForm" (ngSubmit)="addStop()">
       <div class="form-row">
+        <div class="input-group">
+          <label>Posizione</label>
+          <select formControlName="position">
+            @for (pos of availablePositions; track pos) {
+              <option [value]="pos">{{ pos }}</option>
+            }
+          </select>
+        </div>
+
         <input type="text" formControlName="city" placeholder="Città">
         <input type="text" formControlName="address" placeholder="Indirizzo">
         <input type="number" formControlName="time" placeholder="Minuti">
