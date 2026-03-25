@@ -1,1 +1,22 @@
-<router-outlet></router-outlet>
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo" routerLink="/">
+      <span class="logo-icon">🚌</span>
+      <span class="logo-text">BusManager<strong>Pro</strong></span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+      <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+    </ul>
+
+    <div class="nav-user">
+      <span class="user-name">Admin</span>
+      <div class="user-avatar">A</div>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
