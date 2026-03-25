@@ -1,11 +1,28 @@
 <div class="gestionale-container">
+  @if (showSuccessToast) {
+    <div class="toast-success">
+      ✅ Modifiche salvate correttamente!
+    </div>
+  }
+
   <button routerLink="/dashboard" class="btn-back">⬅ Torna alla Dashboard</button>
 
   <div class="header-actions">
     <h1>Gestione Linea: {{ lineData.line }}</h1>
-    <button class="btn-reverse" (click)='generateReturnLine()'>
-      🔄 Genera Percorso Ritorno
-    </button>
+
+    <div class="buttons-group">
+      <button (click)="saveToDatabase()" [disabled]="isSaving" class="btn-save">
+        @if (isSaving) {
+          Attendi...
+        } @else {
+          💾 Salva Modifiche
+        }
+      </button>
+
+      <button class="btn-reverse" (click)='generateReturnLine()'>
+        🔄 Genera Percorso Ritorno
+      </button>
+    </div>
   </div>
 
   <table class="stops-table">

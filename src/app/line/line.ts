@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Fermata, LineaTrasporto } from '../model/entities';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
+import { LineService } from '../line-service';
 
 @Component({
   selector: 'app-line',
@@ -9,29 +10,67 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
   templateUrl: './line.html',
   styleUrl: './line.css',
 })
-export class Line
+export class Line implements OnInit
 {
-  // I tuoi dati di prova
+  isSaving = false;
+  showSuccessToast = false;
+
+  // Inizializziamo con un oggetto vuoto "sicuro" o lasciamolo gestire al Service
   lineData: LineaTrasporto = {
-    line: "2208",
-    stops: [
-      { order: 1, city: "Monza", address: "Piazza Stazione", time: null },
-      { order: 2, city: "Monza", address: "Via Lecco 10", time: 10 },
-      { order: 3, city: "Monza", address: "Via Lecco 40", time: 40 },
-      { order: 4, city: "Villasanta", address: "Via Edison", time: 10 }
-    ]
+    line: "",
+    stops: []
   };
 
-  // Dentro la classe Line
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private lineService: LineService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    // Leggiamo l'ID dall'URL (es: 2208)
-    const lineId = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      const data = this.lineService.getLineById(id);
+      if (data) {
+        // Ora carichiamo i dati REALI dal Service (z221, 2208, ecc.)
+        this.lineData = JSON.parse(JSON.stringify(data));
+      } else {
+        // Se l'ID non esiste, possiamo dare un nome di default
+        this.lineData.line = id;
+      }
+    }
+  }
 
-    // Qui, in futuro, cercherai i dati nel database usando questo ID.
-    // Per ora cambiamo solo il titolo:
-    this.lineData.line = lineId || 'Linea Sconosciuta';
+  // Modifica il tuo metodo saveToDatabase (quello del tasto salva)
+  saveToDatabase() {
+    console.log("Inizio salvataggio...");
+    this.isSaving = true; // Qui il tasto diventa "disabilitato" (cursore divieto)
+
+    try {
+      // 1. Salviamo i dati nel Service
+      this.lineService.updateLine(this.lineData);
+
+      // 2. Dopo un piccolo delay per dare feedback visivo
+      setTimeout(() => {
+        this.isSaving = false;        // Sblocca il tasto (il cursore torna normale)
+        this.showSuccessToast = true; // Mostra il toast verde
+        console.log("Salvataggio completato!");
+
+        // FORZA l'aggiornamento della grafica
+        this.cdr.detectChanges();
+
+        // 3. Nascondi il toast dopo 3 secondi
+        setTimeout(() => {
+          this.showSuccessToast = false;
+          this.cdr.detectChanges(); // Forza di nuovo quando sparisce il toast
+        }, 3000);
+      }, 500);
+
+    } catch (error) {
+      console.error("Errore durante il salvataggio:", error);
+      this.isSaving = false; // Sblocca il tasto anche in caso di errore!
+      this.cdr.detectChanges();
+    }
   }
 
   // Form per aggiungere nuove fermate
@@ -166,4 +205,3 @@ export class Line
     }));
   }
 }
-

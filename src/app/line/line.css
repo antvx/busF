@@ -242,3 +242,75 @@ select {
   gap: 15px;             /* Spazio tra un campo e l'altro */
   flex-wrap: wrap;       /* Se lo schermo è piccolo, i campi vanno a capo ordinatamente */
 }
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+}
+
+.buttons-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-save {
+  background-color: #28a745; /* Verde "Salva" */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-save:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-save:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-reverse {
+  background-color: #6f42c1; /* Viola per funzioni speciali */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* line.css */
+.toast-success {
+  position: fixed !important; /* Forza la posizione sopra tutto */
+  top: 100px !important;      /* Spostalo più in basso per non coprire la NavBar */
+  right: 30px !important;
+  background-color: #28a745 !important;
+  color: white !important;
+  padding: 20px 30px !important;
+  border-radius: 12px !important;
+  font-weight: bold !important;
+  z-index: 99999 !important;   /* Livello massimo assoluto */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+  display: block !important;
+  border: 2px solid #1e7e34 !important;
+}
+
+/* Assicuriamoci che il cursore torni normale sul bottone */
+.btn-save:not(:disabled) {
+  cursor: pointer !important;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
