@@ -1,0 +1,21 @@
+<div class="dashboard-container">
+  <button routerLink="/" class="btn-back">⬅ Torna alla Home</button>
+
+  <h1>Le Tue Linee Autobus</h1>
+  <p>Seleziona una Linea da gestire</p>
+
+  <div class="lines-grid">
+    @for (line of allLines; track line.id) {
+      <div class="line-card" [routerLink]="['/line', line.id]">
+        <div class="card-header">
+          <span class="line-badge">Bus</span>
+          <h2>{{ line.name }}</h2>
+        </div>
+        <p>{{ line.stopCount }} fermate totali</p>
+        <div class="card-footer">
+          <span>Gestisci Percorso →</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>

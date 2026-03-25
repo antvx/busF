@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Fermata, LineaTrasporto } from '../model/entities';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-line',
@@ -21,6 +21,18 @@ export class Line
       { order: 4, city: "Villasanta", address: "Via Edison", time: 10 }
     ]
   };
+
+  // Dentro la classe Line
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    // Leggiamo l'ID dall'URL (es: 2208)
+    const lineId = this.route.snapshot.paramMap.get('id');
+
+    // Qui, in futuro, cercherai i dati nel database usando questo ID.
+    // Per ora cambiamo solo il titolo:
+    this.lineData.line = lineId || 'Linea Sconosciuta';
+  }
 
   // Form per aggiungere nuove fermate
   // Form aggiornato con il campo position
