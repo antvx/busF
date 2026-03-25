@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Fermata, LineaTrasporto } from '../model/entities';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-line',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, FormsModule],
   templateUrl: './line.html',
   styleUrl: './line.css',
 })
@@ -51,27 +51,72 @@ export class Line
   }
 
   generateReturnLine() {
-    // 1. Invertiamo l'array delle fermate (creandone una copia per non rovinare l'andata)
+    // 1. Creiamo una copia delle fermate attuali
     const forwardStops = [...this.lineData.stops];
-    const returnStops = forwardStops.reverse();
 
-    // 2. Mappiamo le fermate invertite per correggere 'order' e 'time'
-    const updatedReturnStops = returnStops.map((stop, index) => {
+    // 2. Prendiamo solo i minuti (escludendo il null) e li invertiamo
+    // Esempio: se i tempi erano [null, 10, 40, 10], i 'gaps' invertiti sono [10, 40, 10]
+    const travelTimes = forwardStops
+      .map(s => s.time)
+      .filter(t => t !== null)
+      .reverse() as number[];
+
+    // 3. Invertiamo l'ordine fisico delle fermate
+    const reversedStops = forwardStops.reverse();
+
+    // 4. Ricostruiamo la linea riassegnando i tempi invertiti
+    const updatedReturnStops = reversedStops.map((stop, index) => {
       return {
         ...stop,
-        order: index + 1, // Nuovo ordine: 1, 2, 3...
-        // La nuova prima fermata (ex ultima) deve avere tempo null
-        time: index === 0 ? null : stop.time
+        order: index + 1,
+        // La prima fermata è sempre 'null' (Partenza)
+        // Le altre prendono il tempo dall'array invertito (index - 1)
+        time: index === 0 ? null : travelTimes[index - 1]
       };
     });
 
-    // 3. Aggiorniamo i dati della linea
+    // 5. Aggiornamento finale del nome e dei dati
     this.lineData = {
       line: this.lineData.line.includes('-R')
-            ? this.lineData.line.replace('-R', '') // Se era già ritorno, torna andata
-            : this.lineData.line + "-R",           // Altrimenti aggiungi -R
+            ? this.lineData.line.replace('-R', '')
+            : this.lineData.line + "-R",
       stops: updatedReturnStops
     };
+  }
+
+  // Aggiungi questa variabile nella classe
+  editingIndex: number | null = null;
+
+  // Metodo per attivare la modifica
+  startEdit(index: number) {
+    this.editingIndex = index;
+  }
+
+  // Metodo per salvare e chiudere
+  stopEdit() {
+    this.editingIndex = null;
+    // Qui potresti chiamare anche la funzione di salvataggio nel database o localStorage
+    console.log("Dati aggiornati:", this.lineData.stops);
+  }
+
+  moveStop(index: number, direction: 'up' | 'down') {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+
+    // Controllo limiti (non posso andare sopra la prima o sotto l'ultima)
+    if (targetIndex < 0 || targetIndex >= this.lineData.stops.length) return;
+
+    // 1. Scambio le posizioni nell'array
+    const stops = this.lineData.stops;
+    [stops[index], stops[targetIndex]] = [stops[targetIndex], stops[index]];
+
+    // 2. Ricalcolo gli ordini e sistemo il "Partenza" (null)
+    this.lineData.stops = stops.map((stop, i) => ({
+      ...stop,
+      order: i + 1,
+      // La nuova prima fermata diventa Partenza (null),
+      // alle altre diamo un valore di default (es. 10) se erano null
+      time: i === 0 ? null : (stop.time === null ? 10 : stop.time)
+    }));
   }
 }
 

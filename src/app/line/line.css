@@ -161,3 +161,56 @@ h1 {
 .btn-reverse:active {
   transform: scale(0.95);
 }
+
+.clickable-time {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: inline-block;
+}
+
+.clickable-time:hover {
+  background-color: #e3f2fd;
+  color: #007bff;
+}
+
+.edit-time-input {
+  width: 60px;
+  padding: 4px;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  outline: none;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.btn-move {
+  background-color: #f1f3f5;
+  border: 1px solid #ced4da;
+  color: #495057;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.btn-move:hover:not(:disabled) {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  color: #007bff;
+}
+
+.btn-move:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-delete {
+  margin-left: 5px;
+}

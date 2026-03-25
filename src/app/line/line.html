@@ -25,14 +25,42 @@
           <td>{{ stop.city }}</td>
           <td>{{ stop.address }}</td>
           <td>
-            @if (stop.time !== null) {
-              + {{ stop.time }} min
-            } @else {
+            @if (stop.time === null) {
               <span class="start-label">Partenza</span>
+            } @else {
+              @if (editingIndex === i) {
+                <input
+                  type="number"
+                  [(ngModel)]="stop.time"
+                  (blur)="stopEdit()"
+                  (keyup.enter)="stopEdit()"
+                  class="edit-time-input"
+                  autofocus>
+              } @else {
+                <span class="clickable-time" (click)="startEdit(i)">
+                  + {{ stop.time }} min ✏️
+                </span>
+              }
             }
           </td>
           <td>
-            <button class="btn-delete" (click)="removeStop(i)">Elimina</button>
+            <div class="action-buttons">
+              <button
+                class="btn-move"
+                (click)="moveStop(i, 'up')"
+                [disabled]="i === 0"
+                title="Sposta Su">
+                ↑
+              </button>
+              <button
+                class="btn-move"
+                (click)="moveStop(i, 'down')"
+                [disabled]="i === lineData.stops.length - 1"
+                title="Sposta Giù">
+                ↓
+              </button>
+              <button class="btn-delete" (click)="removeStop(i)">Elimina</button>
+            </div>
           </td>
         </tr>
       }
