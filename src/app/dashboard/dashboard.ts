@@ -21,16 +21,27 @@ export class Dashboard {
   ];*/
 
   allLines: any[] = [];
+
   newLineName: string = '';
+
+  searchQuery: string = '';
+  filteredLines: any[] = []; // Questa conterrà i risultati della ricerca
+
+  suggestions: string[] = [];
 
   constructor(private lineService: LineService) {}
 
   ngOnInit() {
+    // 1. Carichiamo tutte le linee dal Service (L'archivio)
     this.allLines = this.lineService.getLines().map((l: LineaTrasporto) => ({
-    id: l.line,
-    name: 'Linea ' + l.line,
-    stopCount: l.stops.length
+      id: l.line,
+      name: 'Linea ' + l.line,
+      stopCount: l.stops.length
     }));
+
+    // 2. DIAMO IL COMANDO DI COPIARE L'ARCHIVIO NELLA VETRINA
+    // Siccome searchQuery è vuota "", onSearch mostrerà tutto.
+    this.onSearch();
   }
 
   removeLine(event: Event, lineId: string) {
@@ -65,5 +76,46 @@ export class Dashboard {
         alert("Errore: La linea esiste già o il nome non è valido.");
       }
     }
+  }
+
+  // Metodo per filtrare le linee
+  onSearch() {
+    const query = this.searchQuery.toLowerCase().trim();
+    this.suggestions = []; // Puliamo i vecchi suggerimenti ad ogni tasto premuto
+
+    // 1. Se la barra è vuota, mostriamo tutto e usciamo
+    if (!query) {
+      this.filteredLines = this.allLines;
+      return;
+    }
+
+    // 2. Filtriamo le linee in base alle fermate
+    this.filteredLines = this.allLines.filter(line => {
+      const fullLineData = this.lineService.getLineById(line.id);
+
+      // Escludiamo linee senza dati o senza fermate
+      if (!fullLineData || fullLineData.stops.length === 0) return false;
+
+      // Troviamo TUTTE le fermate della linea che corrispondono alla query
+      const matchingStops = fullLineData.stops.filter(stop =>
+        stop.city.toLowerCase().includes(query) ||
+        stop.address.toLowerCase().includes(query)
+      );
+
+      // Se abbiamo trovato almeno una fermata corrispondente:
+      if (matchingStops.length > 0) {
+        // Popoliamo i suggerimenti per il datalist
+        matchingStops.forEach(s => {
+          const text = `${s.city} - ${s.address}`;
+          // Evitiamo di aggiungere lo stesso suggerimento più volte
+          if (!this.suggestions.includes(text)) {
+            this.suggestions.push(text);
+          }
+        });
+        return true; // La linea compare nei risultati
+      }
+
+      return false; // Nessuna fermata corrisponde, la linea viene nascosta
+    });
   }
 }

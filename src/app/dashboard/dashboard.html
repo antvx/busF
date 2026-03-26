@@ -1,23 +1,30 @@
 <div class="dashboard-container">
   <button routerLink="/" class="btn-back">⬅ Torna alla Home</button>
 
-  <div class="add-line-container">
-    <input
-      type="text"
-      [(ngModel)]="newLineName"
-      placeholder="Esempio: z228, 423..."
-      (keyup.enter)="addNewLine()"
-    />
-    <button (click)="addNewLine()" [disabled]="!newLineName.trim()">
-      ➕ Aggiungi Nuova Linea
-    </button>
+  <h1>Le Tue Linee Autobus</h1>
+  <p>Cerca per città o indirizzo e seleziona una linea da gestire</p>
+
+  <div class="search-section">
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+        placeholder="Cerca per città o indirizzo (es: Monza, Via Roma...)"
+        list="search-suggestions"
+      />
+
+      <datalist id="search-suggestions">
+        @for (suggestion of suggestions; track suggestion) {
+          <option [value]="suggestion"></option>
+        }
+      </datalist>
+    </div>
   </div>
 
-  <h1>Le Tue Linee Autobus</h1>
-  <p>Seleziona una Linea da gestire</p>
-
   <div class="lines-grid">
-    @for (line of allLines; track line.id) {
+    @for (line of filteredLines; track line.id) {
       <div class="line-card" [routerLink]="['/line', line.id]">
 
         <button class="btn-delete" (click)="removeLine($event, line.id)" title="Elimina linea">
@@ -28,11 +35,34 @@
           <span class="line-badge">Bus</span>
           <h2>{{ line.name }}</h2>
         </div>
+
         <p>{{ line.stopCount }} fermate totali</p>
+
         <div class="card-footer">
           <span>Gestisci Percorso →</span>
         </div>
       </div>
+    } @empty {
+      <div class="no-results">
+        <p>Nessuna linea trovata per "<strong>{{searchQuery}}</strong>"</p>
+      </div>
     }
+  </div>
+
+  <hr class="separator">
+
+  <div class="add-line-container">
+    <h3>Non trovi la linea? Aggiungine una nuova</h3>
+    <div class="add-line-row">
+      <input
+        type="text"
+        [(ngModel)]="newLineName"
+        placeholder="Esempio: z228, 423..."
+        (keyup.enter)="addNewLine()"
+      />
+      <button (click)="addNewLine()" [disabled]="!newLineName.trim()">
+        ➕ Aggiungi
+      </button>
+    </div>
   </div>
 </div>
