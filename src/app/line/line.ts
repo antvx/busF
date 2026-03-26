@@ -91,6 +91,17 @@ export class Line implements OnInit
     time: new FormControl<number | null>(null, [Validators.required, Validators.min(1)]),
     // Aggiungiamo la posizione, partendo di default da 1
     position: new FormControl<number>(1, { nonNullable: true, validators: [Validators.required] })
+  }, {
+      // Aggiungiamo un validatore a livello di intero gruppo (FormGroup)
+      validators: (group) => {
+        const city = group.get('city')?.value;
+        const address = group.get('address')?.value;
+
+        if (this.isDuplicateStop(city, address)) {
+          return { duplicateStop: true };
+        }
+        return null;
+      }
   });
 
   get availablePositions(): number[] {
@@ -100,46 +111,54 @@ export class Line implements OnInit
   }
 
   addStop() {
-  if (this.stopForm.valid) {
     const formData = this.stopForm.value;
-    // Recuperiamo la posizione scelta (es. 1, 2, 3)
-    // e la trasformiamo in indice per l'array (0, 1, 2)
-    const insertIndex = (formData.position ?? (this.lineData.stops.length + 1)) - 1;
 
-    const newStop: Fermata = {
-      order: 0, // Verrà impostato correttamente dal ricalcolo sotto
-      city: formData.city!,
-      address: formData.address!,
-      // 1. Se è la prima posizione (indice 0), il tempo DEVE essere null (Partenza)
-      // 2. Altrimenti, usiamo ESCLUSIVAMENTE il valore del form (formData.time)
-      time: insertIndex === 0 ? null : formData.time!
-    };
+    // Protezione finale: se è un duplicato, non procedere
+    if (this.isDuplicateStop(formData.city!, formData.address!)) {
+      alert('Errore: questa fermata è già presente nel percorso.');
+      return;
+    }
 
-    // Inseriamo la fermata nella posizione desiderata
-    this.lineData.stops.splice(insertIndex, 0, newStop);
+    if (this.stopForm.valid) {
 
-    // RICALCOLO: aggiorniamo gli ordini e la logica del tempo per tutta la lista
-    this.lineData.stops = this.lineData.stops.map((stop, i) => {
-      const isFirst = i === 0;
-      return {
-        ...stop,
-        order: i + 1,
-        // La nuova prima fermata è sempre Partenza
-        // Se una vecchia partenza è stata spostata, le assegniamo un tempo di default (es. 10)
-        time: isFirst ? null : (stop.time === null ? 10 : stop.time)
+      // Recuperiamo la posizione scelta (es. 1, 2, 3)
+      // e la trasformiamo in indice per l'array (0, 1, 2)
+      const insertIndex = (formData.position ?? (this.lineData.stops.length + 1)) - 1;
+
+      const newStop: Fermata = {
+        order: 0, // Verrà impostato correttamente dal ricalcolo sotto
+        city: formData.city!,
+        address: formData.address!,
+        // 1. Se è la prima posizione (indice 0), il tempo DEVE essere null (Partenza)
+        // 2. Altrimenti, usiamo ESCLUSIVAMENTE il valore del form (formData.time)
+        time: insertIndex === 0 ? null : formData.time!
       };
-    });
 
-    const lastCity = formData.city; // Salviamo la città appena usata
+      // Inseriamo la fermata nella posizione desiderata
+      this.lineData.stops.splice(insertIndex, 0, newStop);
 
-    // Reset del form: puliamo i campi ma prepariamo la 'position' per la prossima aggiunta in coda
-    this.stopForm.reset({
-      city: lastCity, // La riproponiamo per la prossima fermata
-      address: '',
-      time: null,
-      position: this.lineData.stops.length + 1
-    });
-  }
+      // RICALCOLO: aggiorniamo gli ordini e la logica del tempo per tutta la lista
+      this.lineData.stops = this.lineData.stops.map((stop, i) => {
+        const isFirst = i === 0;
+        return {
+          ...stop,
+          order: i + 1,
+          // La nuova prima fermata è sempre Partenza
+          // Se una vecchia partenza è stata spostata, le assegniamo un tempo di default (es. 10)
+          time: isFirst ? null : (stop.time === null ? 10 : stop.time)
+        };
+      });
+
+      const lastCity = formData.city; // Salviamo la città appena usata
+
+      // Reset del form: puliamo i campi ma prepariamo la 'position' per la prossima aggiunta in coda
+      this.stopForm.reset({
+        city: lastCity, // La riproponiamo per la prossima fermata
+        address: '',
+        time: null,
+        position: this.lineData.stops.length + 1
+      });
+    }
 }
 
   // Bonus: Metodo per eliminare una fermata
@@ -216,5 +235,15 @@ export class Line implements OnInit
       // alle altre diamo un valore di default (es. 10) se erano null
       time: i === 0 ? null : (stop.time === null ? 10 : stop.time)
     }));
+  }
+
+  // Controlla se esiste già una fermata con stessa città e indirizzo
+  isDuplicateStop(city: string | null, address: string | null): boolean {
+    if (!city || !address) return false;
+
+    return this.lineData.stops.some(stop =>
+      stop.city.toLowerCase() === city.toLowerCase() &&
+      stop.address.toLowerCase() === address.toLowerCase()
+    );
   }
 }

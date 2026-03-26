@@ -45,7 +45,7 @@ export class Dashboard {
   }
 
   removeLine(event: Event, lineId: string) {
-    // 1. IMPORTANTE: Impediamo al click di attivare il routerLink della card
+    // 1. Impediamo al click di attivare il routerLink della card
     event.stopPropagation();
 
     // 2. Chiediamo conferma all'utente
@@ -55,8 +55,12 @@ export class Dashboard {
       // 3. Eliminiamo dal Service
       this.lineService.deleteLine(lineId);
 
-      // 4. Aggiorniamo la vista locale (filtriamo via la linea eliminata)
+      // 4. Aggiorniamo l'archivio locale
       this.allLines = this.allLines.filter(l => l.id !== lineId);
+
+      // 5. FONDAMENTALE: Ricarichiamo la visualizzazione filtrata
+      // Questo farà sparire la card immediatamente dalla griglia
+      this.onSearch();
     }
   }
 
@@ -65,13 +69,20 @@ export class Dashboard {
       const success = this.lineService.addLine(this.newLineName);
 
       if (success) {
-        // Rinfreschiamo la lista visualizzata
+        // 1. Rinfreschiamo l'archivio completo (allLines)
         this.allLines = this.lineService.getLines().map((l: LineaTrasporto) => ({
           id: l.line,
           name: 'Linea ' + l.line,
           stopCount: l.stops.length
         }));
-        this.newLineName = ''; // Puliamo il campo dopo l'aggiunta
+
+        // 2. Puliamo il campo di input
+        this.newLineName = '';
+
+        // 3. FONDAMENTALE: Sincronizziamo la visualizzazione (filteredLines)
+        // Questo farà apparire la card immediatamente nella griglia
+        this.onSearch();
+
       } else {
         alert("Errore: La linea esiste già o il nome non è valido.");
       }

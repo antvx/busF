@@ -123,5 +123,11 @@
       </button>
 
     </div>
+
+    @if (stopForm.errors?.['duplicateStop']) {
+      <div class="duplicate-error-text" style="color: #ff4d4f; font-size: 0.8rem; margin-top: 5px;">
+        ⚠️ Questa fermata (Città + Indirizzo) esiste già in questa linea.
+      </div>
+    }
   </div>
 </div>
