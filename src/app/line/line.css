@@ -1,22 +1,31 @@
-/* Contenitore principale */
+/* --- CONTENITORE PRINCIPALE --- */
 .gestionale-container {
   background-color: #fcfcfc;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 30px;
-  max-width: 950px;
+  max-width: 1000px;
   margin: 20px auto;
   font-family: 'Segoe UI', Roboto, sans-serif;
   box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
 
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #eee;
+}
+
 h1 {
   color: #333;
-  margin-bottom: 25px;
+  margin: 0;
   font-size: 1.8rem;
 }
 
-/* Tabella Fermate */
+/* --- TABELLA FERMATE --- */
 .stops-table {
   width: 100%;
   border-collapse: collapse;
@@ -24,6 +33,7 @@ h1 {
   background: white;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .stops-table th {
@@ -42,13 +52,14 @@ h1 {
   padding: 15px;
   border-bottom: 1px solid #f0f0f0;
   color: #444;
+  vertical-align: middle;
 }
 
 .stops-table tr:hover {
   background-color: #fdfdfd;
 }
 
-/* Etichette e bottoni */
+/* --- ELEMENTI TABELLA (Time & Labels) --- */
 .start-label {
   background-color: #d4edda;
   color: #155724;
@@ -58,259 +69,211 @@ h1 {
   font-weight: bold;
 }
 
-.btn-delete {
-  background: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: background 0.2s;
-}
-
-.btn-delete:hover {
-  background: #cc0000;
-}
-
-/* Pannello Aggiungi Fermata */
-.add-stop-panel {
-  background: #f1f3f5;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
-}
-
-.add-stop-panel h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #495057;
-}
-
-.form-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.form-row input {
-  flex: 1;
-  min-width: 150px;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-.btn-add {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.btn-add:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.btn-add:disabled {
-  background-color: #adb5bd;
-  cursor: not-allowed;
-}
-
-.btn-back {
-  background: none;
-  border: 1px solid #ccc;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  color: #666;
-}
-.btn-back:hover {
-  background: #eee;
-}
-
-.header-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.btn-reverse {
-  background-color: #6c5ce7; /* Un bel viola/indaco */
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform 0.2s, background 0.2s;
-}
-
-.btn-reverse:hover {
-  background-color: #a29bfe;
-  transform: scale(1.05);
-}
-
-.btn-reverse:active {
-  transform: scale(0.95);
-}
-
 .clickable-time {
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
+  color: #007bff;
   transition: background 0.2s;
-  display: inline-block;
 }
 
 .clickable-time:hover {
   background-color: #e3f2fd;
-  color: #007bff;
 }
 
 .edit-time-input {
-  width: 60px;
-  padding: 4px;
-  border: 1px solid #007bff;
+  width: 70px;
+  padding: 6px;
+  border: 2px solid #007bff;
   border-radius: 4px;
   outline: none;
 }
 
+/* --- PANNELLO AGGIUNGI FERMATA (Uniformato) --- */
+.add-stop-panel {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.add-stop-panel h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #495057;
+  font-size: 1.2rem;
+}
+
+.add-stop-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Gruppo Label + Campo */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-group label {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #6c757d;
+  margin-left: 2px;
+}
+
+/* STILE UNIFICATO PER INPUT E SELECT */
+.form-field {
+  height: 42px;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.form-field:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* --- BOTTONI --- */
+.buttons-group {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-save {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-save:hover:not(:disabled) {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+.btn-reverse {
+  background-color: #6f42c1;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-reverse:hover {
+  background-color: #59359a;
+}
+
+.btn-add {
+  height: 42px;
+  padding: 0 25px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add:hover:not(:disabled) { background-color: #0056b3; }
+
+.btn-back {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  color: #666;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-back:hover {
+  background: #f8f9fa;
+  border-color: #bbb;
+}
+
+/* Bottoni Azioni in Tabella */
 .action-buttons {
   display: flex;
-  gap: 5px;
-  align-items: center;
+  gap: 6px;
 }
 
 .btn-move {
-  background-color: #f1f3f5;
-  border: 1px solid #ced4da;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
   color: #495057;
-  padding: 5px 10px;
+  padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.2s;
 }
 
 .btn-move:hover:not(:disabled) {
   background-color: #e9ecef;
-  border-color: #adb5bd;
   color: #007bff;
 }
 
-.btn-move:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.btn-delete {
-  margin-left: 5px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.input-group label {
-  font-size: 0.7rem;
-  font-weight: bold;
-  color: #666;
-  text-transform: uppercase;
-}
-
-select {
-  padding: 10px;
-  border: 1px solid #ced4da;
+.btn-delete-row {
+  background-color: #fff1f0;
+  color: #ff4d4f;
+  border: 1px solid #ffccc7;
+  padding: 6px 12px;
   border-radius: 4px;
-  background: white;
-  min-width: 80px;
-}
-
-.form-row {
-  display: flex;
-  align-items: flex-end; /* Allinea il tasto e gli input sulla linea di base */
-  gap: 15px;             /* Spazio tra un campo e l'altro */
-  flex-wrap: wrap;       /* Se lo schermo è piccolo, i campi vanno a capo ordinatamente */
-}
-
-.header-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #eee;
-}
-
-.buttons-group {
-  display: flex;
-  gap: 10px;
-}
-
-.btn-save {
-  background-color: #28a745; /* Verde "Salva" */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: bold;
   cursor: pointer;
+  font-size: 0.85rem;
   transition: all 0.2s;
 }
 
-.btn-save:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
-}
-
-.btn-save:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-reverse {
-  background-color: #6f42c1; /* Viola per funzioni speciali */
+.btn-delete-row:hover {
+  background-color: #ff4d4f;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
 }
 
-/* line.css */
+/* --- TOAST SUCCESS --- */
 .toast-success {
-  position: fixed !important; /* Forza la posizione sopra tutto */
-  top: 100px !important;      /* Spostalo più in basso per non coprire la NavBar */
+  position: fixed !important;
+  top: 30px !important;
   right: 30px !important;
   background-color: #28a745 !important;
   color: white !important;
-  padding: 20px 30px !important;
+  padding: 16px 28px !important;
   border-radius: 12px !important;
   font-weight: bold !important;
-  z-index: 99999 !important;   /* Livello massimo assoluto */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
-  display: block !important;
-  border: 2px solid #1e7e34 !important;
-}
-
-/* Assicuriamoci che il cursore torni normale sul bottone */
-.btn-save:not(:disabled) {
-  cursor: pointer !important;
+  z-index: 99999 !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+  animation: slideIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border: none !important;
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
+  from { transform: translateX(120%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+/* Utility per stati disabilitati */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }

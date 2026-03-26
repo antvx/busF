@@ -76,7 +76,7 @@
                 title="Sposta Giù">
                 ↓
               </button>
-              <button class="btn-delete" (click)="removeStop(i)">Elimina</button>
+              <button class="btn-delete-row" (click)="removeStop(i)">Elimina</button>
             </div>
           </td>
         </tr>
@@ -86,22 +86,42 @@
 
   <div class="add-stop-panel">
     <h3>Aggiungi Fermata</h3>
-    <form [formGroup]="stopForm" (ngSubmit)="addStop()">
-      <div class="form-row">
-        <div class="input-group">
-          <label>Posizione</label>
-          <select formControlName="position">
-            @for (pos of availablePositions; track pos) {
-              <option [value]="pos">{{ pos }}</option>
-            }
-          </select>
-        </div>
 
-        <input type="text" formControlName="city" placeholder="Città">
-        <input type="text" formControlName="address" placeholder="Indirizzo">
-        <input type="number" formControlName="time" placeholder="Minuti">
-        <button type="submit" [disabled]="stopForm.invalid" class="btn-add">Aggiungi</button>
+    <div class="add-stop-container" [formGroup]="stopForm">
+
+      <div class="field-group" style="width: 85px;">
+        <label>Posizione</label>
+        <select formControlName="position" class="form-field">
+          @for (pos of availablePositions; track pos) {
+            <option [value]="pos">{{ pos }}</option>
+          }
+        </select>
       </div>
-    </form>
+
+      <div class="field-group" style="flex: 2;">
+        <label>Città</label>
+        <select formControlName="city" class="form-field">
+          <option value="" disabled selected>Seleziona...</option>
+          @for (city of cities; track city) {
+            <option [value]="city">{{ city }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field-group" style="flex: 3;">
+        <label>Indirizzo</label>
+        <input type="text" formControlName="address" class="form-field" placeholder="Es: Piazza Duomo 1">
+      </div>
+
+      <div class="field-group" style="width: 100px;">
+        <label>Minuti</label>
+        <input type="number" formControlName="time" class="form-field" placeholder="Min">
+      </div>
+
+      <button class="btn-add" (click)="addStop()" [disabled]="stopForm.invalid">
+        Aggiungi
+      </button>
+
+    </div>
   </div>
 </div>

@@ -21,6 +21,16 @@ export class Line implements OnInit
     stops: []
   };
 
+  cities: string[] = [
+    'Monza',
+    'Milano',
+    'Villasanta',
+    'Sesto San Giovanni',
+    'Cinisello Balsamo',
+    'Lissone',
+    'Desio'
+  ];
+
   constructor(
     private route: ActivatedRoute,
     private lineService: LineService,
@@ -78,7 +88,7 @@ export class Line implements OnInit
   stopForm = new FormGroup({
     city: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
-    time: new FormControl<number | null>(null, [Validators.min(1)]),
+    time: new FormControl<number | null>(null, [Validators.required, Validators.min(1)]),
     // Aggiungiamo la posizione, partendo di default da 1
     position: new FormControl<number>(1, { nonNullable: true, validators: [Validators.required] })
   });
@@ -100,8 +110,9 @@ export class Line implements OnInit
       order: 0, // Verrà impostato correttamente dal ricalcolo sotto
       city: formData.city!,
       address: formData.address!,
-      // Se è la prima posizione forziamo null, altrimenti usiamo il valore inserito o 0
-      time: insertIndex === 0 ? null : (formData.time ?? 10)
+      // 1. Se è la prima posizione (indice 0), il tempo DEVE essere null (Partenza)
+      // 2. Altrimenti, usiamo ESCLUSIVAMENTE il valore del form (formData.time)
+      time: insertIndex === 0 ? null : formData.time!
     };
 
     // Inseriamo la fermata nella posizione desiderata
@@ -119,9 +130,11 @@ export class Line implements OnInit
       };
     });
 
+    const lastCity = formData.city; // Salviamo la città appena usata
+
     // Reset del form: puliamo i campi ma prepariamo la 'position' per la prossima aggiunta in coda
     this.stopForm.reset({
-      city: '',
+      city: lastCity, // La riproponiamo per la prossima fermata
       address: '',
       time: null,
       position: this.lineData.stops.length + 1
