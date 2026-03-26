@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LineService } from '../line-service'; // Importa il service
 import { LineaTrasporto } from '../model/entities';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -20,6 +21,7 @@ export class Dashboard {
   ];*/
 
   allLines: any[] = [];
+  newLineName: string = '';
 
   constructor(private lineService: LineService) {}
 
@@ -44,6 +46,24 @@ export class Dashboard {
 
       // 4. Aggiorniamo la vista locale (filtriamo via la linea eliminata)
       this.allLines = this.allLines.filter(l => l.id !== lineId);
+    }
+  }
+
+  addNewLine() {
+    if (this.newLineName.trim()) {
+      const success = this.lineService.addLine(this.newLineName);
+
+      if (success) {
+        // Rinfreschiamo la lista visualizzata
+        this.allLines = this.lineService.getLines().map((l: LineaTrasporto) => ({
+          id: l.line,
+          name: 'Linea ' + l.line,
+          stopCount: l.stops.length
+        }));
+        this.newLineName = ''; // Puliamo il campo dopo l'aggiunta
+      } else {
+        alert("Errore: La linea esiste già o il nome non è valido.");
+      }
     }
   }
 }

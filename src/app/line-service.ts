@@ -65,4 +65,18 @@ export class LineService {
       console.log(`✅ Linea ${lineId} eliminata dal Service`);
     }
   }
+
+  addLine(name: string): boolean {
+    // Verifichiamo se esiste già una linea con lo stesso nome per evitare duplicati
+    const exists = this.lines.some(l => l.line === name);
+
+    if (!exists && name.trim() !== '') {
+      this.lines.push({
+        line: name,
+        stops: [] // Inizia vuota come richiesto
+      });
+      return true;
+    }
+    return false;
+  }
 }
