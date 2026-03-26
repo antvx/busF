@@ -7,6 +7,11 @@
   <div class="lines-grid">
     @for (line of allLines; track line.id) {
       <div class="line-card" [routerLink]="['/line', line.id]">
+
+        <button class="btn-delete" (click)="removeLine($event, line.id)" title="Elimina linea">
+          &times;
+        </button>
+
         <div class="card-header">
           <span class="line-badge">Bus</span>
           <h2>{{ line.name }}</h2>

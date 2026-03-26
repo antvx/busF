@@ -57,4 +57,12 @@ export class LineService {
     // Log di controllo: guarda la console del browser per vedere se l'array è cambiato davvero
     console.log('Stato attuale del database in memoria:', this.lines);
   }
+
+  deleteLine(lineId: string) {
+    const index = this.lines.findIndex(l => l.line === lineId);
+    if (index !== -1) {
+      this.lines.splice(index, 1);
+      console.log(`✅ Linea ${lineId} eliminata dal Service`);
+    }
+  }
 }

@@ -30,4 +30,20 @@ export class Dashboard {
     stopCount: l.stops.length
     }));
   }
+
+  removeLine(event: Event, lineId: string) {
+    // 1. IMPORTANTE: Impediamo al click di attivare il routerLink della card
+    event.stopPropagation();
+
+    // 2. Chiediamo conferma all'utente
+    const confirmDelete = confirm(`Sei sicuro di voler eliminare la linea ${lineId}?`);
+
+    if (confirmDelete) {
+      // 3. Eliminiamo dal Service
+      this.lineService.deleteLine(lineId);
+
+      // 4. Aggiorniamo la vista locale (filtriamo via la linea eliminata)
+      this.allLines = this.allLines.filter(l => l.id !== lineId);
+    }
+  }
 }
