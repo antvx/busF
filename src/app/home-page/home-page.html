@@ -12,9 +12,22 @@
   </header>
 
   <div class="stats-bar">
-    <div class="stat-item"><strong>{{stats.activeLines}}</strong> Linee Attive</div>
-    <div class="stat-item"><strong>{{stats.totalStops}}</strong> Fermate Totali</div>
-    <div class="stat-item"><strong>{{stats.driversOnDuty}}</strong> Autisti in Servizio</div>
+
+    <div class="stat-banner">
+      <span class="stat-number">{{ activeLinesCount }}</span>
+      <span class="stat-label">Linee Attive</span>
+    </div>
+
+    <div class="stat-banner">
+      <span class="stat-number">{{ totalStopsCount }}</span>
+      <span class="stat-label">Fermate Totali</span>
+    </div>
+
+    <div class="stat-banner">
+      <span class="stat-number">{{ driversCount }}</span>
+      <span class="stat-label">Autisti in Servizio</span>
+    </div>
+
   </div>
 
   <div class="menu-grid">

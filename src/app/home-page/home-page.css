@@ -99,3 +99,30 @@
   margin: 0;
   color: #636e72;
 }
+
+.stat-banner {
+  flex: 1;
+  min-width: 150px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: center;
+  /* Mantiene il numero e l'etichetta ben distanziati */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #2d3436;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #636e72;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
