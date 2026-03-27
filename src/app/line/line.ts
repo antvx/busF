@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Fermata, LineaTrasporto } from '../model/entities';
+import { Stop, Line as LineEntity } from '../model/entities';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { LineService } from '../line-service';
@@ -16,7 +16,7 @@ export class Line implements OnInit
   showSuccessToast = false;
 
   // Inizializziamo con un oggetto vuoto "sicuro" o lasciamolo gestire al Service
-  lineData: LineaTrasporto = {
+  lineData: LineEntity = {
     line: "",
     stops: []
   };
@@ -125,7 +125,7 @@ export class Line implements OnInit
       // e la trasformiamo in indice per l'array (0, 1, 2)
       const insertIndex = (formData.position ?? (this.lineData.stops.length + 1)) - 1;
 
-      const newStop: Fermata = {
+      const newStop: Stop = {
         order: 0, // Verrà impostato correttamente dal ricalcolo sotto
         city: formData.city!,
         address: formData.address!,

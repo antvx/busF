@@ -1,4 +1,4 @@
-export interface Fermata
+export interface Stop
 {
   order: number;
   city: string;
@@ -6,8 +6,19 @@ export interface Fermata
   time: number | null; // null per il capolinea
 }
 
-export interface LineaTrasporto
+export interface Line
 {
   line: string;
-  stops: Fermata[];
+  stops: Stop[];
+  trips?: Trip[];
+}
+
+export interface Trip
+{
+  id: number;
+  start: string; // Formato HH:MM
+  dayType: string;
+  season: string;
+  line?: Line;
+  date: string; // Formato DD-MM-YYYY
 }

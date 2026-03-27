@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LineService } from '../line-service'; // Importa il service
-import { LineaTrasporto } from '../model/entities';
+import { Line } from '../model/entities';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -33,7 +33,7 @@ export class Dashboard {
 
   ngOnInit() {
     // 1. Carichiamo tutte le linee dal Service (L'archivio)
-    this.allLines = this.lineService.getLines().map((l: LineaTrasporto) => ({
+    this.allLines = this.lineService.getLines().map((l: Line) => ({
       id: l.line,
       name: 'Linea ' + l.line,
       stopCount: l.stops.length
@@ -70,7 +70,7 @@ export class Dashboard {
 
       if (success) {
         // 1. Rinfreschiamo l'archivio completo (allLines)
-        this.allLines = this.lineService.getLines().map((l: LineaTrasporto) => ({
+        this.allLines = this.lineService.getLines().map((l: Line) => ({
           id: l.line,
           name: 'Linea ' + l.line,
           stopCount: l.stops.length

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LineService } from '../line-service';
-import { LineaTrasporto } from '../model/entities';
+import { Line } from '../model/entities';
 
 @Component({
   selector: 'app-home-page',

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Fermata as Stop, LineaTrasporto as Linea } from './model/entities'; // Importa la tua interfaccia
+import { Stop, Line } from './model/entities'; // Importa la tua interfaccia
 
 @Injectable({
   providedIn: 'root' // Lo rende disponibile in tutta l'app
 })
 export class LineService {
   // Il nostro "Database" temporaneo
-  private lines: Linea[] = [
+  private lines: Line[] = [
     {
       line: '2208',
       stops: [
@@ -33,13 +33,13 @@ export class LineService {
   }
 
   // Metodo per avere una singola linea (per LineComponent)
-  getLineById(id: string): Linea | undefined {
+  getLineById(id: string): Line | undefined {
     const line = this.lines.find(l => l.line === id);
     return line ? JSON.parse(JSON.stringify(line)) : undefined;
   }
 
   // Metodo per aggiornare i dati (quando premi "Salva")
-  updateLine(updatedLine: Linea) {
+  updateLine(updatedLine: Line) {
     // 1. Cerchiamo l'indice della linea nell'array originale
     const index = this.lines.findIndex(l => l.line === updatedLine.line);
 
