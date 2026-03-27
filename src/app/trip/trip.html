@@ -1,0 +1,51 @@
+<div class="trips-section">
+  <div class="trip-header">
+    <h2>Corse Disponibili</h2>
+    <div class="date-picker">
+      <label>Data:</label>
+      <input type="date" [(ngModel)]="selectedDate" (change)="updateDisplay()"
+             [min]="minDate" [max]="maxDate">
+    </div>
+  </div>
+
+  <div class="trip-summary-banner">
+    <div class="summary-item">
+      <strong>TRAGITTO:</strong>
+      <span>{{ lineData.stops[0].city }} - {{ lineData.stops[lineData.stops.length - 1].city }}</span>
+    </div>
+    <div class="summary-item">
+      <strong>DATA:</strong> {{ currentDayInfo.date }}
+    </div>
+    <div class="badges">
+      <span class="badge" [attr.data-type]="currentDayInfo.dayType">
+        {{ currentDayInfo.dayType | uppercase }}
+      </span>
+      <span class="badge season">
+        {{ currentDayInfo.season === 'winter' ? 'STAGIONE INVERNALE' : 'STAGIONE ESTIVA' }}
+      </span>
+    </div>
+  </div>
+
+  <table class="trip-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>PARTENZA</th>
+        <th>ARRIVO</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (trip of filteredTrips; track trip.id) {
+        <tr>
+          <td><strong>#{{ trip.id }}</strong></td>
+          <td class="time-cell start">{{ trip.start }}</td>
+          <td class="time-cell end">{{ trip.arrival }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="3" class="no-data">Nessuna corsa programmata per questa giornata.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

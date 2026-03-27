@@ -1,0 +1,73 @@
+.trips-section {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-top: 30px;
+}
+
+.trip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f2f5;
+  padding-bottom: 15px;
+}
+
+.trip-summary-banner {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.badges {
+  grid-column: span 2;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #e9ecef;
+  color: #495057;
+}
+
+/* Colori dinamici per i tipi di giorno */
+.badge[data-type="ferial"] { background: #d1e7dd; color: #0f5132; }
+.badge[data-type="festive"] { background: #f8d7da; color: #842029; }
+.badge.season { background: #cfe2ff; color: #084298; }
+
+.trip-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trip-table th {
+  text-align: left;
+  padding: 12px;
+  color: #6c757d;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.trip-table td {
+  padding: 15px 12px;
+  border-top: 1px solid #eee;
+}
+
+.time-cell {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.time-cell.start { color: #2d3436; }
+.time-cell.end { color: #007bff; }

@@ -3,10 +3,11 @@ import { Stop, Line as LineEntity } from '../model/entities';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { LineService } from '../line-service';
+import { TripComponent } from '../trip/trip';
 
 @Component({
   selector: 'app-line',
-  imports: [ReactiveFormsModule, RouterLink, FormsModule],
+  imports: [ReactiveFormsModule, RouterLink, FormsModule, TripComponent],
   templateUrl: './line.html',
   styleUrl: './line.css',
 })
