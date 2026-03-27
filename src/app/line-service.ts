@@ -15,6 +15,23 @@ export class LineService {
         { order: 1, city: 'Monza', address: 'Piazza Stazione', time: null },
         { order: 2, city: 'Monza', address: 'Via Visconti', time: 10 },
         { order: 3, city: 'Villasanta', address: 'Via Roma', time: 15 }
+      ],
+      trips: [
+        {
+          id: 1,
+          start: '07:30',
+          day: { date: '', dayType: 'ferial', season: 'summer' }
+        },
+        {
+          id: 2,
+          start: '08:30',
+          day: { date: '', dayType: 'ferial', season: 'summer' }
+        },
+        {
+          id: 3,
+          start: '09:00',
+          day: { date: '', dayType: 'festive', season: 'summer' }
+        }
       ]
     },
     {

@@ -2,7 +2,7 @@
   <div class="trip-header">
     <h2>Corse Disponibili</h2>
     <div class="date-picker">
-      <label>Data:</label>
+      <label>Data selezionata: </label>
       <input type="date" [(ngModel)]="selectedDate" (change)="updateDisplay()"
              [min]="minDate" [max]="maxDate">
     </div>
@@ -10,7 +10,7 @@
 
   <div class="trip-summary-banner">
     <div class="summary-item">
-      <strong>TRAGITTO:</strong>
+      <strong>TRAGITTO: </strong>
       <span>{{ lineData.stops[0].city }} - {{ lineData.stops[lineData.stops.length - 1].city }}</span>
     </div>
     <div class="summary-item">
@@ -30,14 +30,14 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>PARTENZA</th>
-        <th>ARRIVO</th>
+        <th>ORARIO PARTENZA</th>
+        <th>ORARIO ARRIVO</th>
       </tr>
     </thead>
     <tbody>
       @for (trip of filteredTrips; track trip.id) {
         <tr>
-          <td><strong>#{{ trip.id }}</strong></td>
+          <td><strong>{{ trip.id }}</strong></td>
           <td class="time-cell start">{{ trip.start }}</td>
           <td class="time-cell end">{{ trip.arrival }}</td>
         </tr>
